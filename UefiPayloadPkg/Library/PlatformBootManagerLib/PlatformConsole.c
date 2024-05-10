@@ -392,7 +392,11 @@ DetectAndPreparePlatformPciDevicePath (
   //
   // Enable all display devices
   //
-  if (IS_PCI_DISPLAY (Pci)) {
+  if ((IS_PCI_DISPLAY (Pci)) &&
+      // only match Intel iGPU so it always is primary
+      // this will break configurations without an Intel iGPU
+      (Pci->Hdr.VendorId == 0x8086)
+     ) {
     //
     // Add them to ConOut.
     //
